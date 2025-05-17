@@ -83,22 +83,28 @@ EMAIL_PASSWORD=your_email_password
 # 4. Setup MySQL Database
 Create a database called LateComersDB and run these tables:
 ```sql
-CREATE TABLE SchoolRecords (
-  admission_no INT PRIMARY KEY,
-  student_name VARCHAR(100),
-  parent_email VARCHAR(100)
+CREATE DATABASE IF NOT EXISTS LateComersDB;
+USE LateComersDB;
+
+CREATE TABLE IF NOT EXISTS ptes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE LateRecords (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  admission_no INT,
-  date DATE,
-  reason TEXT
+CREATE TABLE IF NOT EXISTS SchoolRecords (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    admission_no VARCHAR(20) UNIQUE NOT NULL,
+    student_name VARCHAR(100) NOT NULL,
+    parent_email VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE ptes (
-  username VARCHAR(50) PRIMARY KEY,
-  password VARCHAR(100)
+CREATE TABLE IF NOT EXISTS LateRecords (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    admission_no VARCHAR(20) NOT NULL,
+    date DATE NOT NULL,
+    reason TEXT,
+    FOREIGN KEY (admission_no) REFERENCES SchoolRecords(admission_no) ON DELETE CASCADE
 );
 ```
 
